@@ -5,11 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.file.AccessDeniedException;
-import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class ApiExceptionAdvice {
@@ -46,18 +44,6 @@ public class ApiExceptionAdvice {
                 .body(ApiExceptionEntity.builder()
                         .errorCode(ExceptionEnum.ACCESS_DENIED.getCode())
                         .errorMsg(ExceptionEnum.ACCESS_DENIED.getMessage())
-                        .build());
-    }
-
-    // access denied exception
-    @ExceptionHandler({NoSuchElementException.class})
-    public ResponseEntity<ApiExceptionEntity> exceptionHandler(HttpServletRequest req, final NoSuchElementException e) {
-        e.printStackTrace();
-        return ResponseEntity
-                .status(ExceptionEnum.NO_SUCH_ELEMENT.getStatus())
-                .body(ApiExceptionEntity.builder()
-                        .errorCode(ExceptionEnum.NO_SUCH_ELEMENT.getCode())
-                        .errorMsg(e.getMessage())
                         .build());
     }
 
